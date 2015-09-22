@@ -81,7 +81,7 @@ inputs:
       prefix: "-g"
 
   - id: "#dept"
-    type: ["null","#depts"]
+    type: ["null","bedtools-genomecov-types.cwl#depts"]
 
   - id: "#scale"
     type: ["null",float ]
@@ -167,10 +167,10 @@ outputs:
     type: File
     description: "The file containing the genome coverage"
     outputBinding:
-      glob: 
+      glob:
         engine: cwl:JsonPointer
         script: /job/genomecoverageout
-stdout: 
+stdout:
   engine: cwl:JsonPointer
   script: /job/genomecoverageout
 

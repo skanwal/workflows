@@ -13,6 +13,15 @@ inputs:
     type: float
   - id: "#input"
     type: File
+    inputBinding:
+      secondaryFiles:
+        - engine: ../../engines/node-engine.cwl
+          script: |
+           {
+            if ((/.*\.bam$/i).test($job['input'].path))
+               return {"path": $job['input'].path+".bai", "class": "File"};
+            return [];
+           }
   - id: "#genomeFile"
     type: File
 
@@ -29,20 +38,20 @@ steps:
       - {id: "#genomecov.input", source: "#input"}
       - {id: "#genomecov.genomeFile", source: "#genomeFile"}
       - {id: "#genomecov.genomecoverageout", default: "genomecov.bed" }
-      - {id: "#genomecov.dept", type: '#depts' , default: {'#dept': '-bg' } }
+      - {id: "#genomecov.dept", type: '../../tools/bedtools-genomecov-types.cwl#depts' , default: {'dept': '-bg' } }
       - {id: "#genomecov.scale", source: "#scale" }
     outputs:
       - {id: "#genomecov.genomecoverage"}
 
   - id: "#sort"
     inputs:
-      - {id: "#sort.input", source: "#genomecov.genomecoverage"}    
+      - {id: "#sort.sortinput", source: "#genomecov.genomecoverage"}
     outputs:
       - {id: "#sort.sorted"}
     run:
       class: CommandLineTool
       inputs:
-        - id: "#input"
+        - id: "#sortinput"
           type: File
           inputBinding:
             position: 1
