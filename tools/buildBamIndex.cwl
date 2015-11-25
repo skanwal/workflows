@@ -47,7 +47,7 @@ inputs:
       prefix: "INPUT="
       
 outputs:
-  - id: "#markDups_output"
+  - id: "#BuildBamIndex_output"
     type: File
     outputBinding: 
       glob:
